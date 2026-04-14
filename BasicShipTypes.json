@@ -1,0 +1,101 @@
+[
+  {
+    "Turrets": [
+      {
+        "AmmoOptions": [
+          {
+            "accuracy": 1.0,
+            "count": 50,
+            "damage": 10,
+            "maxImpactCount": 3
+          }
+        ],
+        "CannonCount": 3,
+        "hitChance": 1.0,
+        "maxHealth": 100,
+        "range": 1000,
+        "reloadTime": 10
+      },
+      {
+        "AmmoOptions": [
+          {
+            "accuracy": 1.0,
+            "count": 50,
+            "damage": 10,
+            "maxImpactCount": 3
+          }
+        ],
+        "CannonCount": 3,
+        "hitChance": 1.0,
+        "maxHealth": 100,
+        "range": 1000,
+        "reloadTime": 10
+      }
+    ],
+    "bridge": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "engine": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "enginePower": 10.0,
+    "hull": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "noHitChance": 1.0,
+    "size": 5.0,
+    "steering": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    }
+  },
+  {
+    "Turrets": [
+      {
+        "AmmoOptions": [
+          {
+            "accuracy": 1.0,
+            "count": 50,
+            "damage": 10,
+            "maxImpactCount": 3
+          }
+        ],
+        "CannonCount": 3,
+        "hitChance": 1.0,
+        "maxHealth": 100,
+        "range": 1000,
+        "reloadTime": 10
+      }
+    ],
+    "bridge": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "engine": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "enginePower": 10.0,
+    "hull": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    },
+    "noHitChance": 1.0,
+    "size": 5.0,
+    "steering": {
+      "hitChance": 1.0,
+      "maxHealth": 100,
+      "repairSpeed": 1.0
+    }
+  }
+]
