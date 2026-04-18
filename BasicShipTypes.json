@@ -14,7 +14,8 @@
         "hitChance": 1.0,
         "maxHealth": 100,
         "range": 1000,
-        "reloadTime": 10
+        "reloadTime": 10,
+        "repairSpeed": 5
       },
       {
         "AmmoOptions": [
@@ -29,7 +30,8 @@
         "hitChance": 1.0,
         "maxHealth": 100,
         "range": 1000,
-        "reloadTime": 10
+        "reloadTime": 10,
+        "repairSpeed": 5
       }
     ],
     "bridge": {
@@ -71,7 +73,8 @@
         "hitChance": 1.0,
         "maxHealth": 100,
         "range": 1000,
-        "reloadTime": 10
+        "reloadTime": 10,
+        "repairSpeed": 5
       }
     ],
     "bridge": {

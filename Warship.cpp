@@ -64,8 +64,8 @@ void Warship::Fire(int gun, unsigned char ammoType, float targetX, float targetY
 				else {
 					Log("Missed!");
 				}
-				selectedGun.AmmoOptions[ammoType].count -= selectedGun.CannonCount;
-				selectedGun.cooldown = selectedGun.reloadTime;
+				Guns[gun].AmmoOptions[ammoType].count -= Guns[gun].CannonCount;
+				Guns[gun].cooldown = Guns[gun].reloadTime;
 			}
 			else Log("There is not enough of that ammunition type!");
 		}
@@ -164,7 +164,7 @@ void Warship::Tick()
 					fireOrders.erase(fireOrders.begin() + index-1);
 				}
 			}
-			else --Guns[item.gun].cooldown;
+			else --(Guns[item.gun].cooldown);
 		}
 	}
 	if (hullIntegrity != type.hull.maxHealth) {
@@ -174,6 +174,28 @@ void Warship::Tick()
 	if (flooding >= 100.0f) {
 		std::cout << name << " has been lost with all hands!\n";
 		OtherShips->erase(OtherShips->begin() + indexPosition);
+	}
+	if (steeringHealth < type.steering.maxHealth) {
+		steeringHealth += type.steering.repairSpeed;
+		steeringHealth = std::max(steeringHealth, type.steering.maxHealth);
+	}
+	if (bridgeHealth < type.bridge.maxHealth) {
+		bridgeHealth += type.bridge.repairSpeed;
+		bridgeHealth = std::max(bridgeHealth, type.bridge.maxHealth);
+	}
+	if (engineHealth < type.engine.maxHealth) {
+		engineHealth += type.engine.repairSpeed;
+		engineHealth = std::max(engineHealth, type.engine.maxHealth);
+	}
+	if (hullIntegrity < type.hull.maxHealth) {
+		hullIntegrity += type.hull.repairSpeed;
+		hullIntegrity = std::max(hullIntegrity, type.hull.maxHealth);
+	}
+	for (int index = 0; index < Guns.size(); ++index) {
+		if (Guns[index].health < Guns[index].maxHealth) {
+			Guns[index].health += Guns[index].repairSpeed;
+			Guns[index].health = std::max(Guns[index].health, Guns[index].maxHealth);
+		}
 	}
 }
 

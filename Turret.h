@@ -17,10 +17,11 @@ struct Turret {
 	int maxHealth;
 	int health = 0;
 	int cooldown = 0;
+	int repairSpeed;
 	float hitChance;
 	Turret() = default;
-	Turret(int CannonCount, int range, int reloadTime, std::vector<AmmoType> AmmoOptions, int maxHealth, int hitChance) : CannonCount(CannonCount), range(range), reloadTime(reloadTime), AmmoOptions(AmmoOptions), maxHealth(maxHealth), hitChance(hitChance) { health = maxHealth; };
+	Turret(int CannonCount, int range, int reloadTime, std::vector<AmmoType> AmmoOptions, int maxHealth, int hitChance, int repairSpeed) : CannonCount(CannonCount), range(range), reloadTime(reloadTime), AmmoOptions(AmmoOptions), maxHealth(maxHealth), hitChance(hitChance), repairSpeed(repairSpeed) { health = maxHealth; };
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Turret, CannonCount, range, reloadTime, AmmoOptions, maxHealth, hitChance)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Turret, CannonCount, range, reloadTime, AmmoOptions, maxHealth, hitChance, repairSpeed)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AmmoType, damage, accuracy, maxImpactCount, count)

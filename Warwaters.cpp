@@ -9,8 +9,11 @@ bool Debug;
 bool BattleGameState = 1;
 void takeAndParseInput() {
     std::vector<std::string> Params;
+    std::string InputString;
+    std::getline(std::cin, InputString);
+    std::stringstream InputStream(InputString);
     std::string tempStr;
-    while (std::cin >> tempStr) {
+    while (std::getline(InputStream, tempStr, ' ')) {
         Params.push_back(tempStr);
     }
     for (int index = Params.size() - 1; index > -1; --index) { // makes anything within a quotation a single token
@@ -105,6 +108,7 @@ void takeAndParseInput() {
                 std::cout << "That warship does not exist!\n";
             }
         }
+        else std::cout << "Not Enough Parameters!";
     }
     else if (Params[0] == "list") {
         for (int index = 0; index < Battlefield.size(); ++index) {
