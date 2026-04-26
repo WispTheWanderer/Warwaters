@@ -1,12 +1,17 @@
 #include "Warship.h"
 #include <algorithm>
-Warship::Warship(std::string name, float posX, float posY, ShipType type, std::vector<std::unique_ptr<Warship>>* World) : name(name), positionX(posX), positionY(posY), type(type), OtherShips(World)
+#include <cmath>
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+Warship::Warship(std::string name, float posX, float posY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy) : name(name), positionX(posX), positionY(posY), type(type), OtherShips(World), isEnemy(isEnemy)
 {
 	Guns = type.Turrets;
 	for (int index = 0; index < Guns.size(); ++index)
 	{
 		Guns[index].health = Guns[index].maxHealth;
 	}
+	generate = PercentageGenerator();
 	bridgeHealth = type.bridge.maxHealth;
 	engineHealth = type.engine.maxHealth;
 	steeringHealth = type.steering.maxHealth;
@@ -23,8 +28,8 @@ void Warship::ChangeHeading(float angle, float power)
 	power = std::max(power, 100.0f);
 	power /= 100;
 	speed = power * type.enginePower * (engineHealth / type.engine.maxHealth);
-	velocityX = cos(angle) * speed;
-	velocityY = sin(angle) * speed;
+	velocityX = std::sin(angle * (M_PI / 180.0f)) * speed;
+	velocityY = std::cos(angle * (M_PI / 180.0f)) * speed;
 
 }
 
@@ -46,23 +51,22 @@ void Warship::Fire(int gun, unsigned char ammoType, float targetX, float targetY
 				{
 					actualAccuracy = selectedGun.AmmoOptions[ammoType].accuracy;
 				}
-				if (generate.getPercentage(1.0) <= actualAccuracy) {
-					for (int index = 0; index < OtherShips->size(); ++index) {
-						Warship& checkerTarget = *((*OtherShips)[index]);
-						if (sqrt(pow((targetX - checkerTarget.getPositionX()), 2) + pow((targetY - checkerTarget.getPositionY()), 2)) <= checkerTarget.type.size) {
-							int fireTime = 0;
-							for (int index = 0; index < selectedGun.CannonCount; ++index) {
-								fireTime += generate.getInt(selectedGun.AmmoOptions[ammoType].maxImpactCount);
+				for (int index = 0; index < selectedGun.CannonCount; ++index) {
+					if (generate.getPercentage(1.0) <= actualAccuracy) {
+						for (int index = 0; index < OtherShips->size(); ++index) {
+							Warship& checkerTarget = *((*OtherShips)[index]);
+							if (sqrt(pow((targetX - checkerTarget.getPositionX()), 2) + pow((targetY - checkerTarget.getPositionY()), 2)) <= checkerTarget.type.size) {
+								
+								for (int impactCount = 0; impactCount < generate.getInt(selectedGun.AmmoOptions[ammoType].maxImpactCount) + 1; ++impactCount) {
+									checkerTarget.Damage(selectedGun.AmmoOptions[ammoType].damage);
+								}
+								Log("Hit " + checkerTarget.name + "!");
 							}
-							for (int impactCount = 0; impactCount < fireTime; ++impactCount) {
-								checkerTarget.Damage(selectedGun.AmmoOptions[ammoType].damage);
-							}
-							Log("Hit " + checkerTarget.name + "!");
 						}
 					}
-				}
-				else {
-					Log("Missed!");
+					else {
+						Log("Missed!");
+					}
 				}
 				Guns[gun].AmmoOptions[ammoType].count -= Guns[gun].CannonCount;
 				Guns[gun].cooldown = Guns[gun].reloadTime;
@@ -164,12 +168,14 @@ void Warship::Tick()
 					fireOrders.erase(fireOrders.begin() + index-1);
 				}
 			}
-			else --(Guns[item.gun].cooldown);
 		}
 	}
+	for (int index = 0; index < Guns.size(); ++index) {
+		if (Guns[index].cooldown > 0) --(Guns[index].cooldown);
+	}
 	if (hullIntegrity != type.hull.maxHealth) {
-		float integrityPercent = hullIntegrity / type.hull.maxHealth;
-		flooding += (1 - integrityPercent) * 20;
+		float integrityPercent = float(hullIntegrity) / float(type.hull.maxHealth);
+		flooding += (1.0f - integrityPercent) * 20.0f;
 	}
 	if (flooding >= 100.0f) {
 		std::cout << name << " has been lost with all hands!\n";
@@ -201,7 +207,9 @@ void Warship::Tick()
 
 void Warship::Log(std::string message)
 {
-	std::cout << "[" << name << "]: " << message << "\n";
+	if (!isEnemy) {
+		std::cout << "[" << name << "]: " << message << "\n";
+	}
 }
 
 void Warship::QueueFire(int gun, unsigned char ammoType, float targetX, float targetY, bool IsContinuous)

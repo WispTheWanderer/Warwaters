@@ -33,8 +33,9 @@ private:
 	std::vector<FireParams> fireOrders;
 	std::vector<std::unique_ptr<Warship>>* OtherShips;
 	int indexPosition;
+	bool isEnemy;
 public:
-	Warship(std::string name, float positionX, float positionY, ShipType type, std::vector<std::unique_ptr<Warship>>* World);
+	Warship(std::string name, float positionX, float positionY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy = false);
 	void ChangeHeading(float angle, float power);
 	void Fire(int gun, unsigned char ammoType, float targetX, float targetY);
 	void Teleport(float posX, float posY);
@@ -47,5 +48,6 @@ public:
 	float getPositionY() const { return positionY; };
 	float getHeading() const { return heading; };
 	float getSpeed() const { return speed; };
+	bool getIfEnemy() const { return isEnemy; };
 	std::string getName() const { return name; };
 };
