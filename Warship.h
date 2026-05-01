@@ -34,6 +34,8 @@ private:
 	std::vector<std::unique_ptr<Warship>>* OtherShips;
 	int indexPosition;
 	bool isEnemy;
+	bool HasActioned;
+	bool isDead;
 public:
 	Warship(std::string name, float positionX, float positionY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy = false);
 	void ChangeHeading(float angle, float power);
@@ -48,6 +50,9 @@ public:
 	float getPositionY() const { return positionY; };
 	float getHeading() const { return heading; };
 	float getSpeed() const { return speed; };
+	float getSize() const { return type.size; };
 	bool getIfEnemy() const { return isEnemy; };
+	bool getIfActioned() const { return HasActioned; };
+	bool getIfDead() const { return isDead; };
 	std::string getName() const { return name; };
 };

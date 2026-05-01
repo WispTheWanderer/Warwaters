@@ -1,12 +1,13 @@
-// Warwaters.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+
 #include "Warship.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
+constexpr int WW_MAXTICKCOUNT = 100;
 std::vector<std::unique_ptr<Warship>> Battlefield;
 bool Debug;
 bool BattleGameState = 1;
+int BattleClock = 0;
 std::vector<ShipType> SpawnableShipTypes;
 void takeAndParseInput() {
     std::vector<std::string> Params;
@@ -33,9 +34,37 @@ void takeAndParseInput() {
         std::cout << "List of commands:\n  * fire: Form \"fire [warship name in quotes] [warship gun number] [ammunition type] [x position of target] [y position of target] [continuous fire Y/n]\", fires at targeted position from the targeted warship with the targeted gun.\n  * tick: Form \"tick\", advances the game clock by one tick.\n  * move: Form \"move [warship name in quotes] [heading] [engine power]\", sets a ship on a heading.\n  * look: Form \"look [warship name in quotes]\", displays statistics of the selected warship.\n  * spawn: Form \"spawn [name] [x position] [y position] [ship type]\"";
     }
     else if (Params[0] == "tick") {
-        for (int index = 0; index < Battlefield.size(); ++index) {
-            Battlefield[index]->Tick();
+        int tickCount = 0;
+        if (Params.size() == 2) {
+            try {
+                tickCount = stoi(Params[1]);
+            }
+            catch (const std::exception& e) {
+                std::cout << "Incorrect Parameters.\n";
+            }
         }
+        else {
+            tickCount = WW_MAXTICKCOUNT;
+        }
+        
+        bool Ticking = true;
+        for (int count = 0; count < tickCount; ++count) {
+            for (int index = 0; index < Battlefield.size(); ++index) {
+                Battlefield[index]->Tick();
+                if (Battlefield[index]->getIfActioned()) {
+                    Ticking = false;
+                }
+                
+            }
+            ++BattleClock;
+            for (int index = Battlefield.size() - 1; index != 0; --index) {
+                if (Battlefield[index]->getIfDead()) {
+                    Battlefield.erase(Battlefield.begin() + index);
+                }
+            }
+            if (!Ticking) break;
+        }
+        std::cout << "Game clock: " << BattleClock << "\n";
     }
     else if (Params[0] == "fire") {
         if (Params.size() >= 6) {
@@ -50,6 +79,8 @@ void takeAndParseInput() {
                 };
                 if (!(current->get()->getIfEnemy())) {
                     try {
+                        if (std::stoi(Params[2]) < 1) throw;
+                        if (std::stoi(Params[3]) < 1) throw;
                         current->get()->QueueFire(std::stoi(Params[2]) - 1, stoi(Params[3]) - 1, stof(Params[4]), stof(Params[5]), b);
                         std::cout << "Fire Order Sent\n";
                     }
@@ -106,7 +137,7 @@ void takeAndParseInput() {
             auto current = std::find_if(Battlefield.begin(), Battlefield.end(), [Params](const std::unique_ptr<Warship>& n) { return n->getName() == Params[1]; });
             if (current != Battlefield.end()) {
                 try {
-                    current->get()->Teleport(stof(Params[1]), stof(Params[2]));
+                    current->get()->Teleport(stof(Params[2]), stof(Params[3]));
                 }
                 catch (const std::exception& e) {
                     std::cout << "Incorrect Parameters.\n";
@@ -123,7 +154,7 @@ void takeAndParseInput() {
             auto current = std::find_if(Battlefield.begin(), Battlefield.end(), [Params](const std::unique_ptr<Warship>& n) { return n->getName() == Params[1]; });
             if (current != Battlefield.end()) {
                 try {
-                    current->get()->Damage(stoi(Params[1]));
+                    current->get()->Damage(stoi(Params[2]));
                 }
                 catch (const std::exception& e) {
                     std::cout << "Incorrect Parameters.\n";
@@ -228,13 +259,3 @@ int main()
     
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

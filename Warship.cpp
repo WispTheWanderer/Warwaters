@@ -1,6 +1,5 @@
 #include "Warship.h"
 #include <algorithm>
-#include <cmath>
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -152,6 +151,7 @@ void Warship::Damage(int amount)
 
 void Warship::Tick()
 {
+	HasActioned = false;
 	positionX += velocityX;
 	positionY += velocityY;
 	if (!fireOrders.empty()) 
@@ -167,6 +167,7 @@ void Warship::Tick()
 				{
 					fireOrders.erase(fireOrders.begin() + index-1);
 				}
+				HasActioned = true;
 			}
 		}
 	}
@@ -179,7 +180,9 @@ void Warship::Tick()
 	}
 	if (flooding >= 100.0f) {
 		std::cout << name << " has been lost with all hands!\n";
-		OtherShips->erase(OtherShips->begin() + indexPosition);
+		
+		isDead = true;
+		HasActioned = true;
 	}
 	if (steeringHealth < type.steering.maxHealth) {
 		steeringHealth += type.steering.repairSpeed;
@@ -201,6 +204,14 @@ void Warship::Tick()
 		if (Guns[index].health < Guns[index].maxHealth) {
 			Guns[index].health += Guns[index].repairSpeed;
 			Guns[index].health = std::max(Guns[index].health, Guns[index].maxHealth);
+		}
+	}
+	for (int index = 0; index < OtherShips->size(); ++index) {
+		if (index == indexPosition) continue;
+		if (sqrt(pow((OtherShips->at(index)->getPositionX()) - positionX, 2) + pow((OtherShips->at(index)->getPositionY()) - positionY, 2)) <= OtherShips->at(index)->getSize() + type.size) {
+			Damage(100);
+			OtherShips->at(index)->Damage(100);
+			HasActioned = true;
 		}
 	}
 }
