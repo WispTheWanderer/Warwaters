@@ -216,7 +216,7 @@ void Warship::Tick()
 	}
 }
 
-void Warship::Log(std::string message)
+void Warship::Log(const std::string& message)
 {
 	if (!isEnemy) {
 		std::cout << "[" << name << "]: " << message << "\n";

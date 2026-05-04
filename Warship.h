@@ -43,7 +43,7 @@ public:
 	void Teleport(float posX, float posY);
 	void Damage(int amount);
 	void Tick();
-	void Log(std::string message);
+	void Log(const std::string& message);
 	void QueueFire(int gun, unsigned char ammoType, float targetX, float targetY, bool IsContinuous);
 	float getFloodLevel() const { return flooding; };
 	float getPositionX() const { return positionX; };
