@@ -8,15 +8,15 @@ struct AmmoType {
 	int count = 1;
 };
 struct Turret {
-	int CannonCount;
-	int range;
-	int reloadTime;
+	int CannonCount = 1;
+	int range = 100;
+	int reloadTime = 1;
 	std::vector<AmmoType> AmmoOptions;
-	int maxHealth;
+	int maxHealth = 100;
 	int health = 0;
 	int cooldown = 0;
-	int repairSpeed;
-	float hitChance;
+	int repairSpeed = 1;
+	float hitChance = 1;
 	
 };
 
