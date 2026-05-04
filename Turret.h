@@ -2,12 +2,10 @@
 #include <vector>
 #include "nlohmann/json.hpp"
 struct AmmoType {
-	int damage;
-	float accuracy;
-	int maxImpactCount;
-	int count;
-	AmmoType() = default;
-	AmmoType(int damage, float accuracy, int maxImpactCount, int count) : damage(damage), accuracy(accuracy), maxImpactCount(maxImpactCount), count(count) {};
+	int damage = 100;
+	float accuracy = 1.0;
+	int maxImpactCount = 1;
+	int count = 1;
 };
 struct Turret {
 	int CannonCount;
@@ -19,8 +17,7 @@ struct Turret {
 	int cooldown = 0;
 	int repairSpeed;
 	float hitChance;
-	Turret() = default;
-	Turret(int CannonCount, int range, int reloadTime, std::vector<AmmoType> AmmoOptions, int maxHealth, float hitChance, int repairSpeed) : CannonCount(CannonCount), range(range), reloadTime(reloadTime), AmmoOptions(AmmoOptions), maxHealth(maxHealth), hitChance(hitChance), repairSpeed(repairSpeed) { health = maxHealth; };
+	
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Turret, CannonCount, range, reloadTime, AmmoOptions, maxHealth, hitChance, repairSpeed)
