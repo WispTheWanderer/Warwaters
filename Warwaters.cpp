@@ -169,8 +169,8 @@ void takeAndParseInput() {
     else if (Params[0] == "list") {
         if (Params.size() < 2) {
             for (int index = 0; index < Battlefield.size(); ++index) {
-                Warship* currentPtr = Battlefield[index].get();
-                std::cout << "Index number: " << index << "\nName: " << currentPtr->getName() << "\nHeading: " << currentPtr->getHeading() << "\nSpeed: " << currentPtr->getSpeed() << "\nPosition X:" << currentPtr->getPositionX() << ", Y: " << currentPtr->getPositionY() << "\nFlood Level: " << currentPtr->getFloodLevel() << "\n";
+                Warship& currentPtr = *Battlefield[index];
+                std::cout << "Index number: " << index << "\nName: " << currentPtr.getName() << "\nHeading: " << currentPtr.getHeading() << "\nSpeed: " << currentPtr.getSpeed() << "\nPosition X:" << currentPtr.getPositionX() << ", Y: " << currentPtr.getPositionY() << "\nFlood Level: " << currentPtr.getFloodLevel() << "\n";
             }
         }
         else if (Params[1] == "types") {
