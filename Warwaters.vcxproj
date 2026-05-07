@@ -132,6 +132,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShipType.h" />
     <ClInclude Include="Turret.h" />
+    <ClInclude Include="2dVector.h" />
     <ClInclude Include="Warship.h" />
   </ItemGroup>
   <ItemGroup>

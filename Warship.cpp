@@ -3,8 +3,10 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-Warship::Warship(std::string name, float posX, float posY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy) : name(name), positionX(posX), positionY(posY), type(type), OtherShips(World), isEnemy(isEnemy)
+Warship::Warship(std::string name, float posX, float posY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy) : name(name), type(type), OtherShips(World), isEnemy(isEnemy)
 {
+	Position.x = posX;
+	Position.y = posY;
 	Guns = type.Turrets;
 	for (int index = 0; index < Guns.size(); ++index)
 	{
@@ -25,8 +27,8 @@ void Warship::ChangeHeading(float angle, float power)
 	power = std::max(power, 100.0f);
 	power /= 100;
 	speed = power * type.enginePower * (engineHealth / type.engine.maxHealth);
-	velocityX = std::sin(angle * (M_PI / 180.0f)) * speed;
-	velocityY = std::cos(angle * (M_PI / 180.0f)) * speed;
+	Velocity.x = std::sin(angle * (M_PI / 180.0f)) * speed;
+	Velocity.y = std::cos(angle * (M_PI / 180.0f)) * speed;
 
 }
 
@@ -37,7 +39,7 @@ void Warship::Fire(int gun, unsigned char ammoType, float targetX, float targetY
 		Turret selectedGun = Guns[gun];
 		if (selectedGun.health > 0) {
 			if (selectedGun.AmmoOptions[ammoType].count >= selectedGun.CannonCount) {
-				float distance = sqrt(pow((positionX - targetX), 2) + pow((positionY - targetY), 2));
+				float distance = sqrt(pow((Position.x - targetX), 2) + pow((Position.y - targetY), 2));
 				distance -= selectedGun.range;
 				float actualAccuracy;
 				if (distance > 0)
@@ -77,8 +79,8 @@ void Warship::Fire(int gun, unsigned char ammoType, float targetX, float targetY
 
 void Warship::Teleport(float posX, float posY)
 {
-	positionX = posX;
-	positionY = posY;
+	Position.x = posX;
+	Position.y = posY;
 }
 
 void Warship::Damage(int amount)
@@ -150,8 +152,8 @@ void Warship::Damage(int amount)
 void Warship::Tick()
 {
 	HasActioned = false;
-	positionX += velocityX;
-	positionY += velocityY;
+	Position.x += Velocity.x;
+	Position.y += Velocity.y;
 	if (!fireOrders.empty()) 
 	{
 		for (int index = fireOrders.size(); index != 0; --index) 
@@ -206,7 +208,7 @@ void Warship::Tick()
 	}
 	for (int index = 0; index < OtherShips->size(); ++index) {
 		if (index == indexPosition) continue;
-		if (sqrt(pow((OtherShips->at(index)->getPositionX()) - positionX, 2) + pow((OtherShips->at(index)->getPositionY()) - positionY, 2)) <= OtherShips->at(index)->getSize() + type.size) {
+		if (sqrt(pow((OtherShips->at(index)->getPositionX()) - Position.x, 2) + pow((OtherShips->at(index)->getPositionY()) - Position.y, 2)) <= OtherShips->at(index)->getSize() + type.size) {
 			Damage(100);
 			OtherShips->at(index)->Damage(100);
 			HasActioned = true;

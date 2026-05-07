@@ -1,4 +1,5 @@
 #pragma once
+#include "2dVector.h"
 #include "ShipType.h"
 #include "PercentageGenerator.h"
 #include <iostream>
@@ -14,10 +15,8 @@ struct FireParams
 };
 class Warship {
 private:
-	float velocityX = 0;
-	float velocityY = 0;
-	float positionX = 0;
-	float positionY = 0;
+	Vector2D Velocity;
+	Vector2D Position;
 	float heading = 0;
 	float speed = 0;
 	float mass = 1;
@@ -46,8 +45,8 @@ public:
 	void Log(const std::string& message);
 	void QueueFire(int gun, unsigned char ammoType, float targetX, float targetY, bool IsContinuous);
 	float getFloodLevel() const { return flooding; };
-	float getPositionX() const { return positionX; };
-	float getPositionY() const { return positionY; };
+	float getPositionX() const { return Position.x; };
+	float getPositionY() const { return Position.y; };
 	float getHeading() const { return heading; };
 	float getSpeed() const { return speed; };
 	float getSize() const { return type.size; };
