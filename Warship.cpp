@@ -15,9 +15,7 @@ Warship::Warship(std::string name, float posX, float posY, ShipType type, std::v
 	engineHealth = type.engine.maxHealth;
 	steeringHealth = type.steering.maxHealth;
 	hullIntegrity = type.hull.maxHealth;
-	std::unique_ptr<Warship> selfPtr(this);
-	indexPosition = OtherShips->size();
-	OtherShips->push_back(std::move(selfPtr));
+	indexPosition = OtherShips->size() - 1;
 	std::cout << name << " has appeared on the horizon!\n";
 }
 

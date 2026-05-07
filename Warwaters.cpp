@@ -197,7 +197,7 @@ void takeAndParseInput() {
                 auto selectedShipType = std::find_if(SpawnableShipTypes.begin(), SpawnableShipTypes.end(), [Params](ShipType s) { return s.name == Params[4]; });
                 if (selectedShipType != SpawnableShipTypes.end()) {
                     try {
-                        new Warship(Params[1], stof(Params[2]), stof(Params[3]), *selectedShipType, &Battlefield);
+                        Battlefield.push_back(std::make_unique<Warship>(Params[1], stof(Params[2]), stof(Params[3]), *selectedShipType, &Battlefield));
                     }
                     catch (const std::exception& e) {
                         std::cout << "Incorrect Parameters.\n";
@@ -241,8 +241,8 @@ int main()
     std::ifstream ShipTypesDoc("BasicShipTypes.json");
     nlohmann::json BasicShipTypes = nlohmann::json::parse(ShipTypesDoc);
     SpawnableShipTypes = BasicShipTypes.get<std::vector<ShipType>>();
-    new Warship("Idiot's Vessel",100,100,SpawnableShipTypes[0],&Battlefield);
-    new Warship("The Other Idiot's Vessel", -100, -100, SpawnableShipTypes[1],&Battlefield,true);
+    Battlefield.push_back(std::make_unique<Warship>("Idiot's Vessel",100,100,SpawnableShipTypes[0],&Battlefield));
+    Battlefield.push_back(std::make_unique<Warship>("The Other Idiot's Vessel", -100, -100, SpawnableShipTypes[1],&Battlefield,true));
     while (BattleGameState) {
         takeAndParseInput();
         if (!(std::any_of(Battlefield.begin(), Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return n->getIfEnemy(); })) && (std::any_of(Battlefield.begin(), Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return !(n->getIfEnemy()); })))
