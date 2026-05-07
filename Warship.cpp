@@ -49,7 +49,7 @@ void Warship::Fire(int gun, unsigned char ammoType, float targetX, float targetY
 					actualAccuracy = selectedGun.AmmoOptions[ammoType].accuracy;
 				}
 				for (int index = 0; index < selectedGun.CannonCount; ++index) {
-					if (generate.getPercentage(1.0) <= actualAccuracy) {
+					if (generate.getFloat(1.0) <= actualAccuracy) {
 						for (int index = 0; index < OtherShips->size(); ++index) {
 							Warship& checkerTarget = *((*OtherShips)[index]);
 							if (sqrt(pow((targetX - checkerTarget.getPositionX()), 2) + pow((targetY - checkerTarget.getPositionY()), 2)) <= checkerTarget.type.size) {
@@ -87,7 +87,7 @@ void Warship::Damage(int amount)
 	for (Turret item : Guns) {
 		totalHitChance += item.hitChance;
 	}
-	float hitChance = generate.getPercentage(totalHitChance);
+	float hitChance = generate.getFloat(totalHitChance);
 	float currentHitChance = type.bridge.hitChance;
 	if (hitChance < currentHitChance) {
 		bridgeHealth -= amount;
