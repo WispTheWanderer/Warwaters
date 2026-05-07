@@ -10,7 +10,7 @@ Warship::Warship(std::string name, float posX, float posY, ShipType type, std::v
 	{
 		Guns[index].health = Guns[index].maxHealth;
 	}
-	generate = PercentageGenerator();
+	generate = RandomNumberGenerator();
 	bridgeHealth = type.bridge.maxHealth;
 	engineHealth = type.engine.maxHealth;
 	steeringHealth = type.steering.maxHealth;

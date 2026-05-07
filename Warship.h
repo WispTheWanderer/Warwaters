@@ -26,7 +26,7 @@ private:
 	int steeringHealth = 0;
 	int hullIntegrity = 0;
 	float flooding = 0;
-	PercentageGenerator generate;
+	RandomNumberGenerator generate;
 	std::string name = "";
 	ShipType type;
 	std::vector<Turret> Guns;
