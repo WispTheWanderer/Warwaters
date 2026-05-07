@@ -14,28 +14,28 @@ struct FireParams
 };
 class Warship {
 private:
-	float velocityX;
-	float velocityY;
-	float positionX;
-	float positionY;
-	float heading;
-	float speed;
-	float mass;
-	int bridgeHealth;
-	int engineHealth;
-	int steeringHealth;
-	int hullIntegrity;
-	float flooding;
+	float velocityX = 0;
+	float velocityY = 0;
+	float positionX = 0;
+	float positionY = 0;
+	float heading = 0;
+	float speed = 0;
+	float mass = 1;
+	int bridgeHealth = 0;
+	int engineHealth = 0;
+	int steeringHealth = 0;
+	int hullIntegrity = 0;
+	float flooding = 0;
 	PercentageGenerator generate;
-	std::string name;
+	std::string name = "";
 	ShipType type;
 	std::vector<Turret> Guns;
 	std::vector<FireParams> fireOrders;
 	std::vector<std::unique_ptr<Warship>>* OtherShips;
-	int indexPosition;
-	bool isEnemy;
-	bool HasActioned;
-	bool isDead;
+	int indexPosition = 0;
+	bool isEnemy = false;
+	bool HasActioned = false;
+	bool isDead = false;
 public:
 	Warship(std::string name, float positionX, float positionY, ShipType type, std::vector<std::unique_ptr<Warship>>* World, bool isEnemy = false);
 	void ChangeHeading(float angle, float power);
