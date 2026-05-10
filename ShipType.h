@@ -6,6 +6,7 @@ struct ShipComponent {
 	int maxHealth = 100;
 	float repairSpeed = 1;
 	float hitChance = 1;
+	float timeCreated = 0;
 };
 struct ShipType {
 	ShipComponent hull;
@@ -21,4 +22,4 @@ struct ShipType {
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ShipType, hull, bridge, engine, steering, Turrets, enginePower, noHitChance, size, name, spawnCost)
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ShipComponent, maxHealth, repairSpeed, hitChance)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ShipComponent, maxHealth, repairSpeed, hitChance, timeCreated)

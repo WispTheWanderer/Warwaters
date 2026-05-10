@@ -17,8 +17,8 @@ struct Turret {
 	int cooldown = 0;
 	int repairSpeed = 1;
 	float hitChance = 1;
-	
+	float timeCreated = 0;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Turret, CannonCount, range, reloadTime, AmmoOptions, maxHealth, hitChance, repairSpeed)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Turret, CannonCount, range, reloadTime, AmmoOptions, maxHealth, hitChance, repairSpeed, timeCreated)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AmmoType, damage, accuracy, maxImpactCount, count)

@@ -233,6 +233,33 @@ void BattleInstance::takeAndParseInput() {
         std::cout << "Unknown command, type \"help\" to get a list of commands!\n";
     }
 }
+struct BattleResult {
+    std::vector<Warship> CapturedShips;
+    std::vector<Warship> SurvivingShips;
+    bool VictoryState;
+    BattleResult(std::vector<Warship> CapturedShips, std::vector<Warship> SurvivingShips, bool VictoryState) : CapturedShips(CapturedShips), SurvivingShips(SurvivingShips), VictoryState(VictoryState) {};
+};
+BattleResult FightBattle(BattleInstance Battle) {
+    while (Battle.BattleGameState) {
+        Battle.takeAndParseInput();
+        if (!(std::any_of(Battle.Battlefield.begin(), Battle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return n->getIfEnemy(); })) && (std::any_of(Battle.Battlefield.begin(), Battle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return !(n->getIfEnemy()); })))
+        {
+            Battle.BattleGameState = false;
+            std::cout << "Congratulations! You have destroyed all enemy ships in the area!\n";
+            std::vector<Warship> ReturningShips;
+            for (int index = 0; index < Battle.Battlefield.size(); ++index) {
+                ReturningShips.push_back(*Battle.Battlefield[index]);
+            }
+            return BattleResult(std::vector<Warship>(), ReturningShips, true);
+        }
+        if (!(std::any_of(Battle.Battlefield.begin(), Battle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return !(n->getIfEnemy()); })) && (std::any_of(Battle.Battlefield.begin(), Battle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return n->getIfEnemy(); })))
+        {
+            std::cout << "Unfortunately, you have lost all ships. Womp womp!\n";
+            return BattleResult(std::vector<Warship>(), std::vector<Warship>(), false);
+        }
+
+    }
+}
 int main()
 {
     BattleInstance Mainbattle;
@@ -241,19 +268,7 @@ int main()
     SpawnableShipTypes = BasicShipTypes.get<std::vector<ShipType>>();
     Mainbattle.Battlefield.push_back(std::make_unique<Warship>("Idiot's Vessel",100,100,SpawnableShipTypes[0],&Mainbattle.Battlefield));
     Mainbattle.Battlefield.push_back(std::make_unique<Warship>("The Other Idiot's Vessel", -100, -100, SpawnableShipTypes[1],&Mainbattle.Battlefield,true));
-    while (Mainbattle.BattleGameState) {
-        Mainbattle.takeAndParseInput();
-        if (!(std::any_of(Mainbattle.Battlefield.begin(), Mainbattle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return n->getIfEnemy(); })) && (std::any_of(Mainbattle.Battlefield.begin(), Mainbattle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return !(n->getIfEnemy()); })))
-        { 
-            Mainbattle.BattleGameState = false; 
-            std::cout << "Congratulations! You have destroyed all enemy ships in the area!\n";
-        }
-        if (!(std::any_of(Mainbattle.Battlefield.begin(), Mainbattle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return !(n->getIfEnemy()); })) && (std::any_of(Mainbattle.Battlefield.begin(), Mainbattle.Battlefield.end(), [](const std::unique_ptr<Warship>& n) { return n->getIfEnemy(); })))
-        {
-            std::cout << "Unfortunately, you have lost all ships. Womp womp!\n";
-        }
-
-    }
+    FightBattle(Mainbattle);
     
 }
 

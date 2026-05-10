@@ -23,7 +23,8 @@
         "maxHealth": 100,
         "range": 1000,
         "reloadTime": 10,
-        "repairSpeed": 5
+        "repairSpeed": 5,
+        "timeCreated": 0
       },
       {
         "AmmoOptions": [
@@ -45,31 +46,36 @@
         "maxHealth": 100,
         "range": 1000,
         "reloadTime": 10,
-        "repairSpeed": 5
+        "repairSpeed": 5,
+        "timeCreated": 0
       }
     ],
     "bridge": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "engine": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "enginePower": 10.0,
     "hull": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "noHitChance": 1.0,
     "size": 5.0,
     "steering": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     }
   },
   {
@@ -96,31 +102,36 @@
         "maxHealth": 100,
         "range": 1000,
         "reloadTime": 10,
-        "repairSpeed": 5
+        "repairSpeed": 5,
+        "timeCreated": 0
       }
     ],
     "bridge": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "engine": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "enginePower": 13.0,
     "hull": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     },
     "noHitChance": 2.0,
     "size": 4.2,
     "steering": {
       "hitChance": 1.0,
       "maxHealth": 100,
-      "repairSpeed": 1.0
+      "repairSpeed": 1.0,
+      "timeCreated": 0
     }
   }
 ]
